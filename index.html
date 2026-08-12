@@ -59,6 +59,12 @@
        color: var(--text);
       }
 
+      .share-btn {
+       border: 1px solid rgba(168, 215, 123, 0.35);
+       background: rgba(168, 215, 123, 0.08);
+       color: var(--text);
+      }
+
       .action-row {
        display: flex;
        flex-wrap: wrap;
@@ -214,7 +220,8 @@
        gap: 18px;
       }
 
-      .sponsor-strip {
+      .sponsor-strip,
+      .template-strip {
        grid-column: 1 / -1;
        background: rgba(42, 34, 31, 0.9);
        border: 1px solid var(--line);
@@ -222,7 +229,8 @@
        padding: 18px;
       }
 
-      .sponsor-strip h4 {
+      .sponsor-strip h4,
+      .template-strip h4 {
        margin: 0 0 12px;
        font-size: 0.8rem;
        text-transform: uppercase;
@@ -239,6 +247,122 @@
 
       .sponsor-list strong {
        color: var(--text);
+      }
+
+      .template-grid {
+       display: grid;
+       grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+       gap: 12px;
+      }
+
+      .template-card {
+       background: rgba(15, 13, 12, 0.7);
+       border: 1px solid rgba(255,255,255,0.08);
+       border-radius: 12px;
+       padding: 12px;
+      }
+
+      .template-graphic {
+       position: relative;
+       height: 54px;
+       margin-bottom: 10px;
+       border: 1px solid rgba(255,255,255,0.15);
+       border-radius: 10px;
+       background: rgba(255,255,255,0.02);
+      }
+
+      .template-graphic::before,
+      .template-graphic::after {
+       content: "";
+       position: absolute;
+       inset: 50% auto auto 50%;
+       transform: translate(-50%, -50%);
+      }
+
+      .template-graphic.straight::before {
+       width: 72%;
+       height: 2px;
+       background: rgba(255, 139, 42, 0.9);
+       left: 50%;
+       top: 50%;
+       box-shadow: 0 -8px 0 rgba(255, 139, 42, 0.8), 0 8px 0 rgba(255, 139, 42, 0.8);
+      }
+
+      .template-graphic.turn::before {
+       width: 56%;
+       height: 56%;
+       border: 2px solid rgba(255, 139, 42, 0.9);
+       border-top-color: transparent;
+       border-left-color: transparent;
+       border-radius: 50%;
+       transform: translate(-10%, -60%) rotate(45deg);
+      }
+
+      .template-graphic.slide::before {
+       width: 60%;
+       height: 2px;
+       background: rgba(255, 139, 42, 0.9);
+       left: 28%;
+       top: 50%;
+       transform: translate(0, -50%) rotate(-28deg);
+      }
+
+      .template-graphic.brake::before {
+       width: 68%;
+       height: 2px;
+       background: rgba(255, 139, 42, 0.9);
+       left: 34%;
+       top: 50%;
+       transform: translate(-10%, -50%);
+      }
+
+      .template-graphic.brake::after {
+       width: 0;
+       height: 0;
+       border-top: 8px solid transparent;
+       border-bottom: 8px solid transparent;
+       border-left: 12px solid rgba(255, 139, 42, 0.9);
+       left: 73%;
+       top: 50%;
+      }
+
+      .template-graphic.reverse::before {
+       width: 68%;
+       height: 2px;
+       background: rgba(255, 139, 42, 0.9);
+       left: 34%;
+       top: 50%;
+       transform: translate(-10%, -50%);
+      }
+
+      .template-graphic.reverse::after {
+       width: 0;
+       height: 0;
+       border-top: 8px solid transparent;
+       border-bottom: 8px solid transparent;
+       border-right: 12px solid rgba(255, 139, 42, 0.9);
+       left: 22%;
+       top: 50%;
+      }
+
+      .template-graphic.ram::before {
+       width: 48%;
+       height: 48%;
+       border: 2px solid rgba(255, 139, 42, 0.9);
+       border-radius: 10px;
+       transform: translate(-45%, -50%) rotate(45deg);
+      }
+
+      .template-card strong {
+       display: block;
+       font-size: 0.82rem;
+       letter-spacing: 0.05em;
+       text-transform: uppercase;
+      }
+
+      .template-card span {
+       color: var(--muted);
+       font-size: 0.74rem;
       }
 
       .vehicle-card {
@@ -322,7 +446,9 @@
        .topbar,
        .stats,
        .layout > aside,
-       .secondary-btn {
+       .secondary-btn,
+       .share-btn,
+       .action-row {
          display: none !important;
        }
 
@@ -339,7 +465,9 @@
        }
 
        .vehicle-card,
-       .sponsor-strip {
+       .sponsor-strip,
+       .template-strip,
+       .template-card {
          background: #fff;
          color: #111;
          border: 1px solid #d3d3d3;
@@ -355,9 +483,15 @@
 
        .meta,
        .sponsor-list,
+       .template-card span,
        .vehicle-card p,
        .vehicle-card div {
          color: #111;
+       }
+
+       .template-graphic {
+         background: #fafafa;
+         border-color: #cfcfcf;
        }
       }
     </style>
@@ -368,6 +502,7 @@
        <div class="brand">Gaslands <span>Builder</span></div>
        <div class="print-actions">
          <div class="tag">Garage roster</div>
+         <button class="secondary-btn share-btn" id="shareRaceSheet" type="button">Share</button>
          <button class="secondary-btn" id="printRaceSheet" type="button">Print / Save as PDF</button>
        </div>
       </header>
@@ -555,6 +690,51 @@
        document.querySelector('#vehicleForm button[type="submit"]').textContent = 'Add to roster';
       }
 
+      function encodeGarageData() {
+       const payload = JSON.stringify(vehicles);
+       return btoa(unescape(encodeURIComponent(payload)));
+      }
+
+      function decodeGarageData(value) {
+       try {
+         const decoded = decodeURIComponent(escape(atob(value)));
+         const parsed = JSON.parse(decoded);
+         return Array.isArray(parsed) ? parsed : [];
+       } catch (error) {
+         return [];
+       }
+      }
+
+      function getShareUrl() {
+       const url = new URL(window.location.href);
+       url.hash = `garage=${encodeGarageData()}`;
+       return url.toString();
+      }
+
+      async function shareGarage() {
+       const shareUrl = getShareUrl();
+
+       if (navigator.share) {
+         try {
+           await navigator.share({
+             title: 'Gaslands garage roster',
+             text: 'Check out my Gaslands roster',
+             url: shareUrl
+           });
+           return;
+         } catch (error) {
+           // Fall back to clipboard if user cancels share.
+         }
+       }
+
+       try {
+         await navigator.clipboard.writeText(shareUrl);
+         window.alert('Garage link copied to clipboard.');
+       } catch (error) {
+         window.prompt('Copy this garage link:', shareUrl);
+       }
+      }
+
       function renderVehicles() {
        const emptyState = vehicles.length === 0
          ? '<div class="vehicle-card"><h3>Garage empty</h3><p>No vehicles in the garage yet. Add one from the form.</p></div>'
@@ -591,12 +771,40 @@
          </div>
        `;
 
-       vehicleCards.innerHTML = emptyState + cardMarkup + sponsorMarkup;
+       const templates = [
+         { name: 'Straight', className: 'straight', note: 'Drive forward' },
+         { name: 'Turn', className: 'turn', note: 'Arc around obstacles' },
+         { name: 'Slide', className: 'slide', note: 'Side-swipe or drift' },
+         { name: 'Brake', className: 'brake', note: 'Quick stop' },
+         { name: 'Reverse', className: 'reverse', note: 'Back out cleanly' },
+         { name: 'Ram', className: 'ram', note: 'Heavy collision' }
+       ];
+
+       const templateMarkup = `
+         <div class="template-strip">
+           <h4>Free Gaslands templates</h4>
+           <div class="template-grid">
+             ${templates.map((template) => `
+               <div class="template-card">
+                 <div class="template-graphic ${template.className}"></div>
+                 <strong>${template.name}</strong>
+                 <span>${template.note}</span>
+               </div>
+             `).join('')}
+           </div>
+         </div>
+       `;
+
+       vehicleCards.innerHTML = emptyState + cardMarkup + sponsorMarkup + templateMarkup;
        renderStats();
       }
 
       document.getElementById('printRaceSheet').addEventListener('click', () => {
        window.print();
+      });
+
+      document.getElementById('shareRaceSheet').addEventListener('click', () => {
+       shareGarage();
       });
 
       vehicleCards.addEventListener('click', (event) => {
@@ -646,6 +854,14 @@
        }
 
        saveVehicles();
+       const hashGarage = window.location.hash.match(/garage=([^&]+)/);
+       if (hashGarage && hashGarage[1]) {
+        const sharedVehicles = decodeGarageData(hashGarage[1]);
+        if (sharedVehicles.length) {
+          vehicles.splice(0, vehicles.length, ...sharedVehicles);
+        }
+       }
+
        renderVehicles();
        resetFormToCreate();
       });
