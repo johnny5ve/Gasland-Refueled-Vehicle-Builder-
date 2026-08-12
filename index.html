@@ -59,13 +59,30 @@
        color: var(--text);
       }
 
+      .action-row {
+       display: flex;
+       flex-wrap: wrap;
+       gap: 8px;
+       margin-top: 14px;
+      }
+
+      .edit-btn,
+      .delete-btn {
+       padding: 8px 10px;
+       font-size: 0.72rem;
+       letter-spacing: 0.06em;
+      }
+
+      .edit-btn {
+       background: rgba(255, 139, 42, 0.14);
+       border: 1px solid rgba(255, 139, 42, 0.5);
+       color: var(--accent-soft);
+      }
+
       .delete-btn {
        background: rgba(214, 75, 42, 0.14);
        border: 1px solid rgba(214, 75, 42, 0.5);
        color: #ffd7cf;
-       padding: 8px 10px;
-       font-size: 0.72rem;
-       letter-spacing: 0.06em;
       }
 
       .brand {
@@ -451,7 +468,25 @@
        { name: 'War Rig', type: 'War Rig', maxGear: 3, handling: 3, crew: 6, weight: 10, armour: 4, hull: 20, buildSlots: 8, cost: 40, specialRules: ['Articulated', 'Large Target', 'Ponderous', 'Sluggish'] }
       ];
 
-      const vehicles = [...fullVehicleInventory];
+      const STORAGE_KEY = 'gaslands-garage-roster-v1';
+      let editingVehicleIndex = null;
+
+      function loadVehicles() {
+       try {
+         const saved = localStorage.getItem(STORAGE_KEY);
+         if (!saved) return [];
+         const parsed = JSON.parse(saved);
+         return Array.isArray(parsed) ? parsed : [];
+       } catch (error) {
+         return [];
+       }
+      }
+
+      function saveVehicles() {
+       localStorage.setItem(STORAGE_KEY, JSON.stringify(vehicles));
+      }
+
+      const vehicles = loadVehicles();
       const vehicleCards = document.getElementById('vehicleCards');
       const vehicleForm = document.getElementById('vehicleForm');
 
@@ -488,7 +523,43 @@
        document.getElementById('speedPeak').textContent = peakGear;
       }
 
+      function getFormVehicleFromInputs() {
+       const formData = new FormData(vehicleForm);
+       const weapon = String(formData.get('weapon') || '').trim() || 'Custom';
+       const notes = String(formData.get('notes') || '').trim();
+       const specialRules = [weapon];
+
+       if (notes && notes !== 'No extra notes') {
+         specialRules.push(notes);
+       }
+
+       return {
+         name: String(formData.get('name') || '').trim() || 'Unnamed rig',
+         type: String(formData.get('chassis') || 'Buggy'),
+         maxGear: Number(formData.get('speed')) || 1,
+         handling: Number(formData.get('speed')) || 1,
+         crew: Number(formData.get('crew')) || 1,
+         weight: Number(formData.get('crew')) || 1,
+         armour: Number(formData.get('armor')) || 1,
+         hull: 8,
+         buildSlots: 2,
+         cost: 18,
+         specialRules
+       };
+      }
+
+      function resetFormToCreate() {
+       editingVehicleIndex = null;
+       vehicleForm.reset();
+       document.getElementById('name').value = 'Freshly painted rig';
+       document.querySelector('#vehicleForm button[type="submit"]').textContent = 'Add to roster';
+      }
+
       function renderVehicles() {
+       const emptyState = vehicles.length === 0
+         ? '<div class="vehicle-card"><h3>Garage empty</h3><p>No vehicles in the garage yet. Add one from the form.</p></div>'
+         : '';
+
        const cardMarkup = vehicles
          .map((vehicle, index) => `
            <article class="vehicle-card">
@@ -503,7 +574,10 @@
                <span class="chip">Gear ${vehicle.maxGear}</span>
              </div>
              <p>${vehicle.specialRules.length ? vehicle.specialRules.join(', ') : 'No special rules'}</p>
-             <button class="delete-btn" type="button" data-index="${index}">Delete</button>
+             <div class="action-row">
+               <button class="edit-btn" type="button" data-index="${index}">Edit</button>
+               <button class="delete-btn" type="button" data-index="${index}">Delete</button>
+             </div>
            </article>
          `)
          .join('');
@@ -517,7 +591,7 @@
          </div>
        `;
 
-       vehicleCards.innerHTML = cardMarkup + sponsorMarkup;
+       vehicleCards.innerHTML = emptyState + cardMarkup + sponsorMarkup;
        renderStats();
       }
 
@@ -526,6 +600,26 @@
       });
 
       vehicleCards.addEventListener('click', (event) => {
+       const editButton = event.target.closest('.edit-btn');
+       if (editButton) {
+         const index = Number(editButton.dataset.index);
+         if (Number.isNaN(index)) return;
+
+         const vehicle = vehicles[index];
+         if (!vehicle) return;
+
+         editingVehicleIndex = index;
+         document.getElementById('name').value = vehicle.name;
+         document.getElementById('chassis').value = vehicle.type;
+         document.getElementById('crew').value = vehicle.crew;
+         document.getElementById('armor').value = vehicle.armour;
+         document.getElementById('speed').value = vehicle.maxGear;
+         document.getElementById('weapon').value = vehicle.specialRules[0] || '';
+         document.getElementById('notes').value = vehicle.specialRules.slice(1).join(', ') || 'No extra notes';
+         document.querySelector('#vehicleForm button[type="submit"]').textContent = 'Save vehicle';
+         return;
+       }
+
        const deleteButton = event.target.closest('.delete-btn');
        if (!deleteButton) return;
 
@@ -533,34 +627,31 @@
        if (Number.isNaN(index)) return;
 
        vehicles.splice(index, 1);
+       saveVehicles();
        renderVehicles();
+       if (editingVehicleIndex === index || editingVehicleIndex === null) {
+         resetFormToCreate();
+       }
       });
 
       vehicleForm.addEventListener('submit', (event) => {
        event.preventDefault();
 
-       const formData = new FormData(vehicleForm);
-       const newVehicle = {
-         name: formData.get('name').trim() || 'Unnamed rig',
-         type: formData.get('chassis') || 'Buggy',
-         maxGear: Number(formData.get('speed')) || 1,
-         handling: Number(formData.get('speed')) || 1,
-         crew: Number(formData.get('crew')) || 1,
-         weight: Number(formData.get('crew')) || 1,
-         armour: Number(formData.get('armor')) || 1,
-         hull: 8,
-         buildSlots: 2,
-         cost: 18,
-         specialRules: [formData.get('weapon').trim() || 'Custom']
-       };
+       const formVehicle = getFormVehicleFromInputs();
 
-       vehicles.unshift(newVehicle);
+       if (editingVehicleIndex !== null) {
+         vehicles[editingVehicleIndex] = formVehicle;
+       } else {
+         vehicles.unshift(formVehicle);
+       }
+
+       saveVehicles();
        renderVehicles();
-       vehicleForm.reset();
-       document.getElementById('name').value = 'Freshly painted rig';
+       resetFormToCreate();
       });
 
       renderVehicles();
+      resetFormToCreate();
     </script>
   </body>
 </html>
