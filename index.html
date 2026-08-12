@@ -59,6 +59,15 @@
        color: var(--text);
       }
 
+      .delete-btn {
+       background: rgba(214, 75, 42, 0.14);
+       border: 1px solid rgba(214, 75, 42, 0.5);
+       color: #ffd7cf;
+       padding: 8px 10px;
+       font-size: 0.72rem;
+       letter-spacing: 0.06em;
+      }
+
       .brand {
        font-size: clamp(1.8rem, 2vw, 2.5rem);
        font-weight: 800;
@@ -481,7 +490,7 @@
 
       function renderVehicles() {
        const cardMarkup = vehicles
-         .map((vehicle) => `
+         .map((vehicle, index) => `
            <article class="vehicle-card">
              <div class="badge">${vehicle.cost} cans</div>
              <h3>${vehicle.name}</h3>
@@ -494,6 +503,7 @@
                <span class="chip">Gear ${vehicle.maxGear}</span>
              </div>
              <p>${vehicle.specialRules.length ? vehicle.specialRules.join(', ') : 'No special rules'}</p>
+             <button class="delete-btn" type="button" data-index="${index}">Delete</button>
            </article>
          `)
          .join('');
@@ -513,6 +523,17 @@
 
       document.getElementById('printRaceSheet').addEventListener('click', () => {
        window.print();
+      });
+
+      vehicleCards.addEventListener('click', (event) => {
+       const deleteButton = event.target.closest('.delete-btn');
+       if (!deleteButton) return;
+
+       const index = Number(deleteButton.dataset.index);
+       if (Number.isNaN(index)) return;
+
+       vehicles.splice(index, 1);
+       renderVehicles();
       });
 
       vehicleForm.addEventListener('submit', (event) => {
