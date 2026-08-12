@@ -220,6 +220,32 @@
        gap: 18px;
       }
 
+      .promo-bar {
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       gap: 12px;
+       flex-wrap: wrap;
+       margin-bottom: 20px;
+       background: linear-gradient(90deg, rgba(255,139,42,0.12), rgba(255,255,255,0.02));
+       border: 1px solid rgba(255,139,42,0.28);
+       border-radius: 14px;
+       padding: 14px 18px;
+      }
+
+      .promo-bar strong {
+       color: var(--accent-soft);
+       font-size: 0.8rem;
+       letter-spacing: 0.08em;
+       text-transform: uppercase;
+      }
+
+      .promo-bar a {
+       color: var(--text);
+       text-decoration: none;
+       font-weight: 700;
+      }
+
       .sponsor-strip,
       .template-strip {
        grid-column: 1 / -1;
@@ -506,6 +532,11 @@
          <button class="secondary-btn" id="printRaceSheet" type="button">Print / Save as PDF</button>
        </div>
       </header>
+
+      <div class="promo-bar">
+       <strong>Built for Gaslands fans</strong>
+       <a href="https://github.com/johnny5ve/Gasland-Refueled-Vehicle-Builder-" target="_blank" rel="noreferrer">Built by Johnny5ve • GitHub</a>
+      </div>
 
       <section class="stats" aria-label="garage summary">
        <div class="stat">
