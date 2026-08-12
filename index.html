@@ -605,13 +605,9 @@
              </div>
 
              <div class="field">
-               <label for="chassis">Chassis</label>
+               <label for="chassis">Vehicle</label>
                <select id="chassis" name="chassis">
-                 <option>Buggy</option>
-                 <option>Truck</option>
-                 <option>Armoured van</option>
-                 <option>Hover bike</option>
-                 <option>Battle wagon</option>
+                 <option value="">Custom build</option>
                </select>
              </div>
 
@@ -623,6 +619,11 @@
              <div class="field">
                <label for="armor">Armor</label>
                <input id="armor" name="armor" type="number" min="1" max="6" value="4" required />
+             </div>
+
+             <div class="field">
+               <label for="buildSlots">Build slots</label>
+               <input id="buildSlots" name="buildSlots" type="number" min="1" max="12" value="2" required />
              </div>
 
              <div class="field">
@@ -673,6 +674,30 @@
 
       const STORAGE_KEY = 'gaslands-garage-roster-v1';
       let editingVehicleIndex = null;
+
+      const vehiclePresetMap = Object.fromEntries(
+       fullVehicleInventory.map((vehicle) => [vehicle.name, vehicle])
+      );
+
+      function populateVehicleSelector() {
+       const chassisSelect = document.getElementById('chassis');
+       chassisSelect.innerHTML = '<option value="">Custom build</option>' + fullVehicleInventory
+         .map((vehicle) => `<option value="${vehicle.name}">${vehicle.name}</option>`)
+         .join('');
+      }
+
+      function applyVehiclePreset(vehicleName) {
+       const preset = vehiclePresetMap[vehicleName];
+       if (!preset) return;
+
+       document.getElementById('name').value = preset.name;
+       document.getElementById('crew').value = preset.crew;
+       document.getElementById('armor').value = preset.armour;
+       document.getElementById('buildSlots').value = preset.buildSlots;
+       document.getElementById('speed').value = preset.maxGear;
+       document.getElementById('weapon').value = preset.specialRules[0] || 'Custom';
+       document.getElementById('notes').value = preset.specialRules.slice(1).join(', ') || 'No extra notes';
+      }
 
       function loadVehicles() {
        try {
@@ -744,8 +769,8 @@
          crew: Number(formData.get('crew')) || 1,
          weight: Number(formData.get('crew')) || 1,
          armour: Number(formData.get('armor')) || 1,
-         hull: 8,
-         buildSlots: 2,
+         hull: Number(formData.get('buildSlots')) || 2,
+         buildSlots: Number(formData.get('buildSlots')) || 2,
          cost: 18,
          specialRules
        };
@@ -754,7 +779,14 @@
       function resetFormToCreate() {
        editingVehicleIndex = null;
        vehicleForm.reset();
+       document.getElementById('chassis').value = '';
        document.getElementById('name').value = 'Freshly painted rig';
+       document.getElementById('crew').value = 3;
+       document.getElementById('armor').value = 4;
+       document.getElementById('buildSlots').value = 2;
+       document.getElementById('speed').value = 7;
+       document.getElementById('weapon').value = 'Twin-linked machine guns';
+       document.getElementById('notes').value = 'Roll 5+ to ignore a ram hit. Loves chaos.';
        document.querySelector('#vehicleForm button[type="submit"]').textContent = 'Add to roster';
       }
 
@@ -875,6 +907,13 @@
        shareGarage();
       });
 
+      document.getElementById('chassis').addEventListener('change', (event) => {
+       const selectedVehicle = event.target.value;
+       if (selectedVehicle) {
+         applyVehiclePreset(selectedVehicle);
+       }
+      });
+
       vehicleCards.addEventListener('click', (event) => {
        const editButton = event.target.closest('.edit-btn');
        if (editButton) {
@@ -889,6 +928,7 @@
          document.getElementById('chassis').value = vehicle.type;
          document.getElementById('crew').value = vehicle.crew;
          document.getElementById('armor').value = vehicle.armour;
+         document.getElementById('buildSlots').value = vehicle.buildSlots || 2;
          document.getElementById('speed').value = vehicle.maxGear;
          document.getElementById('weapon').value = vehicle.specialRules[0] || '';
          document.getElementById('notes').value = vehicle.specialRules.slice(1).join(', ') || 'No extra notes';
@@ -930,6 +970,7 @@
         }
        }
 
+       populateVehicleSelector();
        renderVehicles();
        resetFormToCreate();
       });
