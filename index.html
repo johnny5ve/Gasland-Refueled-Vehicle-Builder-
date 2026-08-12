@@ -176,6 +176,47 @@
        gap: 8px;
       }
 
+      .selected-summary {
+       margin-top: 10px;
+       padding: 12px 14px;
+       border-radius: 12px;
+       border: 1px solid rgba(255,255,255,0.1);
+       background: rgba(255,255,255,0.03);
+      }
+
+      .selected-summary h4 {
+       margin: 0 0 8px;
+       color: var(--accent-soft);
+       font-size: 0.72rem;
+       letter-spacing: 0.08em;
+       text-transform: uppercase;
+      }
+
+      .selected-summary-grid {
+       display: grid;
+       grid-template-columns: repeat(2, minmax(0, 1fr));
+       gap: 8px 12px;
+       color: var(--muted);
+       font-size: 0.82rem;
+      }
+
+      .selected-summary-grid strong {
+       color: var(--text);
+      }
+
+      .summary-rule {
+       margin-top: 10px;
+       padding-top: 10px;
+       border-top: 1px solid rgba(255,255,255,0.08);
+       color: var(--muted);
+       font-size: 0.8rem;
+       line-height: 1.5;
+      }
+
+      .summary-rule strong {
+       color: var(--text);
+      }
+
       label {
        color: var(--muted);
        font-size: 0.82rem;
@@ -641,6 +682,17 @@
                <textarea id="notes" name="notes">Roll 5+ to ignore a ram hit. Loves chaos.</textarea>
              </div>
 
+             <div class="selected-summary" id="selectedSummary">
+               <h4>Selected vehicle</h4>
+               <div class="selected-summary-grid">
+                 <div><span>Crew</span> <strong id="summaryCrew">0</strong></div>
+                 <div><span>Slots</span> <strong id="summarySlots">0</strong></div>
+                 <div><span>Cans</span> <strong id="summaryCost">0</strong></div>
+                 <div><span>Gear</span> <strong id="summaryGear">0</strong></div>
+               </div>
+               <div class="summary-rule"><strong>Rule:</strong> <span id="summaryRule">No special rule selected</span></div>
+             </div>
+
              <button type="submit">Add to roster</button>
            </div>
          </form>
@@ -749,6 +801,39 @@
        document.getElementById('crewTotal').textContent = totalCrew;
        document.getElementById('armorAverage').textContent = avgArmor;
        document.getElementById('speedPeak').textContent = peakGear;
+      }
+
+      function updateSelectedSummary() {
+       const selectedVehicleName = document.getElementById('chassis').value;
+       const summaryCrew = document.getElementById('summaryCrew');
+       const summarySlots = document.getElementById('summarySlots');
+       const summaryCost = document.getElementById('summaryCost');
+       const summaryGear = document.getElementById('summaryGear');
+       const summaryRule = document.getElementById('summaryRule');
+
+       if (selectedVehicleName) {
+         const preset = vehiclePresetMap[selectedVehicleName];
+         if (preset) {
+           summaryCrew.textContent = preset.crew;
+           summarySlots.textContent = preset.buildSlots;
+           summaryCost.textContent = preset.cost;
+           summaryGear.textContent = preset.maxGear;
+           summaryRule.textContent = preset.specialRules.length ? preset.specialRules.join(', ') : 'No special rule';
+           return;
+         }
+       }
+
+       const crewValue = Number(document.getElementById('crew').value || 0);
+       const slotValue = Number(document.getElementById('buildSlots').value || 0);
+       const gearValue = Number(document.getElementById('speed').value || 0);
+       const weaponValue = String(document.getElementById('weapon').value || '').trim();
+       const notesValue = String(document.getElementById('notes').value || '').trim();
+
+       summaryCrew.textContent = crewValue;
+       summarySlots.textContent = slotValue;
+       summaryCost.textContent = Math.max(0, crewValue * 3 + slotValue + 3);
+       summaryGear.textContent = gearValue;
+       summaryRule.textContent = (weaponValue || notesValue || 'No special rule');
       }
 
       function getFormVehicleFromInputs() {
@@ -907,11 +992,20 @@
        shareGarage();
       });
 
+      ['chassis', 'crew', 'armor', 'buildSlots', 'speed', 'weapon', 'notes'].forEach((fieldId) => {
+       const field = document.getElementById(fieldId);
+       if (field) {
+         field.addEventListener('input', updateSelectedSummary);
+         field.addEventListener('change', updateSelectedSummary);
+       }
+      });
+
       document.getElementById('chassis').addEventListener('change', (event) => {
        const selectedVehicle = event.target.value;
        if (selectedVehicle) {
          applyVehiclePreset(selectedVehicle);
        }
+       updateSelectedSummary();
       });
 
       vehicleCards.addEventListener('click', (event) => {
