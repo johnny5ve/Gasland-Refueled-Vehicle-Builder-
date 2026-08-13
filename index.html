@@ -459,6 +459,177 @@
        font-size: 0.74rem;
       }
 
+      .template-shop {
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       gap: 18px;
+       flex-wrap: wrap;
+       background: rgba(15, 13, 12, 0.7);
+       border: 1px solid rgba(255,255,255,0.08);
+       border-radius: 12px;
+       padding: 16px 18px;
+      }
+
+      .template-shop strong {
+       display: block;
+       margin-bottom: 6px;
+       letter-spacing: 0.06em;
+       text-transform: uppercase;
+       color: var(--accent-soft);
+      }
+
+      .template-shop p {
+       margin: 0;
+       color: var(--muted);
+       line-height: 1.5;
+      }
+
+      .shop-btn {
+       display: inline-flex;
+       align-items: center;
+       justify-content: center;
+       text-decoration: none;
+       background: linear-gradient(135deg, var(--accent), #d86016);
+       color: #1b120e;
+       font-weight: 800;
+       letter-spacing: 0.06em;
+       text-transform: uppercase;
+       padding: 12px 16px;
+       border-radius: 10px;
+       white-space: nowrap;
+      }
+
+      .addon-toggle {
+       width: 100%;
+       justify-content: space-between;
+       gap: 12px;
+       font-size: 0.72rem;
+      }
+
+      .addon-panel {
+       margin-top: 12px;
+       border: 1px solid rgba(255,255,255,0.1);
+       background: rgba(15, 13, 12, 0.8);
+       border-radius: 12px;
+       padding: 14px;
+       display: grid;
+       gap: 12px;
+       transition: all 0.2s ease;
+      }
+
+      .addon-panel[hidden] {
+       display: none;
+      }
+
+      .addon-grid {
+       display: grid;
+       grid-template-columns: repeat(2, minmax(0, 1fr));
+       gap: 12px;
+      }
+
+      .addon-grid .field {
+       margin: 0;
+      }
+
+      .kitbash-panel {
+       margin: 18px 0 24px;
+       background: rgba(29, 26, 25, 0.92);
+       border: 1px solid var(--line);
+       border-radius: 18px;
+       overflow: hidden;
+      }
+
+      .kitbash-inner {
+       padding: 20px;
+      }
+
+      .kitbash-header {
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       gap: 14px;
+       flex-wrap: wrap;
+       margin-bottom: 16px;
+      }
+
+      .kitbash-header h3 {
+       margin: 0;
+       font-size: 1.05rem;
+       text-transform: uppercase;
+       letter-spacing: 0.08em;
+       color: var(--accent-soft);
+      }
+
+      .kitbash-form {
+       display: flex;
+       align-items: center;
+       gap: 12px;
+       flex-wrap: wrap;
+       margin-bottom: 18px;
+      }
+
+      .kitbash-form input[type="file"] {
+       flex: 1 1 260px;
+       border: 1px dashed rgba(255,255,255,0.18);
+       background: rgba(255,255,255,0.02);
+       padding: 10px 12px;
+      }
+
+      .gallery-grid {
+       display: grid;
+       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+       gap: 16px;
+      }
+
+      .gallery-item {
+       position: relative;
+       background: rgba(15, 13, 12, 0.8);
+       border: 1px solid rgba(255,255,255,0.09);
+       border-radius: 14px;
+       overflow: hidden;
+      }
+
+      .gallery-item img {
+       display: block;
+       width: 100%;
+       height: 180px;
+       object-fit: cover;
+       border-bottom: 1px solid rgba(255,255,255,0.08);
+      }
+
+      .gallery-meta {
+       display: flex;
+       align-items: center;
+       justify-content: space-between;
+       gap: 12px;
+       padding: 10px 12px;
+      }
+
+      .gallery-title {
+       font-size: 0.78rem;
+       color: var(--muted);
+       text-transform: uppercase;
+       letter-spacing: 0.08em;
+      }
+
+      .gallery-remove {
+       border: 1px solid rgba(214, 75, 42, 0.45);
+       background: rgba(214, 75, 42, 0.12);
+       color: #ffd7cf;
+       padding: 7px 8px;
+       font-size: 0.68rem;
+       letter-spacing: 0.04em;
+      }
+
+      .gallery-empty {
+       padding: 18px;
+       border: 1px dashed rgba(255,255,255,0.14);
+       border-radius: 12px;
+       color: var(--muted);
+       background: rgba(255,255,255,0.02);
+      }
+
       .vehicle-card {
        background: linear-gradient(180deg, rgba(32,27,24,0.9), rgba(20,18,16,0.95));
        border: 1px solid var(--line);
@@ -673,13 +844,92 @@
              </div>
 
              <div class="field">
+               <label for="weight">Weight</label>
+               <input id="weight" name="weight" type="number" min="1" max="12" value="3" required />
+             </div>
+
+             <div class="field">
+               <label for="handling">Handling</label>
+               <input id="handling" name="handling" type="number" min="1" max="10" value="4" required />
+             </div>
+
+             <div class="field">
+               <label for="vehicleCost">Cans</label>
+               <input id="vehicleCost" name="vehicleCost" type="number" min="0" value="18" readonly />
+             </div>
+
+             <div class="field">
                <label for="weapon">Weapon</label>
-               <input id="weapon" name="weapon" type="text" value="Twin-linked machine guns" required />
+               <select id="weapon" name="weapon"></select>
+             </div>
+
+             <div class="field">
+               <label for="specialWeapon">Special weapon</label>
+               <select id="specialWeapon" name="specialWeapon">
+                 <option value="">No special weapon</option>
+               </select>
+             </div>
+
+             <div class="field">
+               <label>Vehicle add-ons</label>
+               <button type="button" class="secondary-btn addon-toggle" id="toggleAddons">Add weapons, rare gear, drop and hand items</button>
+               <div class="addon-panel" id="addonPanel" hidden>
+                 <div class="addon-grid">
+                   <div class="field">
+                     <label for="addonWeapon">Weapon</label>
+                     <select id="addonWeapon" name="addonWeapon">
+                       <option value="">No extra weapon</option>
+                     </select>
+                   </div>
+                   <div class="field">
+                     <label for="addonRareWeapon">Rare weapon</label>
+                     <select id="addonRareWeapon" name="addonRareWeapon">
+                       <option value="">No rare weapon</option>
+                     </select>
+                   </div>
+                   <div class="field">
+                     <label for="addonDropWeapon">Drop weapon</label>
+                     <select id="addonDropWeapon" name="addonDropWeapon">
+                       <option value="">No drop weapon</option>
+                     </select>
+                   </div>
+                   <div class="field">
+                     <label for="addonHandWeapon">Hand weapon</label>
+                     <select id="addonHandWeapon" name="addonHandWeapon">
+                       <option value="">No hand weapon</option>
+                     </select>
+                   </div>
+                 </div>
+               </div>
              </div>
 
              <div class="field">
                <label for="notes">Special rules</label>
                <textarea id="notes" name="notes">Roll 5+ to ignore a ram hit. Loves chaos.</textarea>
+             </div>
+
+             <div class="field">
+               <label for="driverName">Driver name</label>
+               <input id="driverName" name="driverName" type="text" value="Rusty Rook" />
+             </div>
+
+             <div class="field">
+               <label for="driverProfile">Driver profile</label>
+               <select id="driverProfile" name="driverProfile"></select>
+             </div>
+
+             <div class="field">
+               <label for="perkSelect">Perk purchases</label>
+               <select id="perkSelect" name="perkSelect" multiple size="5">
+                 <option value="">No perks selected</option>
+               </select>
+             </div>
+
+             <div class="field">
+               <label for="sponsorSelect">Sponsor</label>
+               <select id="sponsorSelect" name="sponsorSelect">
+                 <option value="">No sponsor selected</option>
+               </select>
              </div>
 
              <div class="selected-summary" id="selectedSummary">
@@ -721,11 +971,131 @@
        { name: 'Gyrocopter', type: 'Gyrocopter', maxGear: 6, handling: 4, crew: 1, weight: 2, armour: 0, hull: 4, buildSlots: 2, cost: 15, specialRules: ['Airborne'] },
        { name: 'Helicopter', type: 'Helicopter', maxGear: 4, handling: 4, crew: 3, weight: 6, armour: 2, hull: 8, buildSlots: 4, cost: 30, specialRules: ['Airborne'] },
        { name: 'Tank', type: 'Tank', maxGear: 3, handling: 3, crew: 3, weight: 10, armour: 5, hull: 16, buildSlots: 5, cost: 36, specialRules: ['All Terrain', 'Large Target', 'Up And Over', 'Pivot', 'Ponderous'] },
-       { name: 'War Rig', type: 'War Rig', maxGear: 3, handling: 3, crew: 6, weight: 10, armour: 4, hull: 20, buildSlots: 8, cost: 40, specialRules: ['Articulated', 'Large Target', 'Ponderous', 'Sluggish'] }
+       { name: 'War Rig', type: 'War Rig', maxGear: 3, handling: 3, crew: 6, weight: 10, armour: 4, hull: 20, buildSlots: 8, cost: 40, specialRules: ['Articulated', 'Large Target', 'Ponderous', 'Sluggish'] },
+       { name: 'Dune Buggy', type: 'Dune Buggy', maxGear: 5, handling: 6, crew: 2, weight: 2, armour: 1, hull: 8, buildSlots: 3, cost: 21, specialRules: ['All Terrain'] },
+       { name: 'Rally Car', type: 'Rally Car', maxGear: 6, handling: 6, crew: 2, weight: 3, armour: 1, hull: 9, buildSlots: 3, cost: 25, specialRules: ['Rough Terrain'] },
+       { name: 'Armoured Car', type: 'Armoured Car', maxGear: 4, handling: 4, crew: 3, weight: 6, armour: 3, hull: 14, buildSlots: 5, cost: 28, specialRules: ['Protected Crew'] },
+       { name: 'Scout Car', type: 'Scout Car', maxGear: 5, handling: 5, crew: 2, weight: 4, armour: 2, hull: 11, buildSlots: 4, cost: 22, specialRules: ['Scouting'] },
+       { name: 'Trike', type: 'Trike', maxGear: 6, handling: 7, crew: 1, weight: 1, armour: 0, hull: 5, buildSlots: 2, cost: 16, specialRules: ['Quick Turn'] },
+       { name: 'Road Train', type: 'Road Train', maxGear: 3, handling: 2, crew: 6, weight: 12, armour: 3, hull: 18, buildSlots: 7, cost: 38, specialRules: ['Articulated', 'Very Slow'] },
+       { name: 'Hovercraft', type: 'Hovercraft', maxGear: 7, handling: 5, crew: 2, weight: 4, armour: 1, hull: 10, buildSlots: 4, cost: 27, specialRules: ['Airborne', 'Skim Over'] },
+       { name: 'Boat', type: 'Boat', maxGear: 4, handling: 4, crew: 2, weight: 5, armour: 1, hull: 12, buildSlots: 3, cost: 24, specialRules: ['Waterborne'] }
       ];
 
       const STORAGE_KEY = 'gaslands-garage-roster-v1';
+      const KITBASH_STORAGE_KEY = 'gaslands-kitbash-gallery-v1';
       let editingVehicleIndex = null;
+
+      const driverProfiles = [
+       { name: 'Rookie', skill: 'Clean getaway', cost: 3, trait: 'Starts with a calm hand and steady survival instincts.' },
+       { name: 'Stunt Driver', skill: 'Precision driver', cost: 5, trait: 'Can reroll a failed handling check once per activation.' },
+       { name: 'Mechanic', skill: 'Field repair', cost: 6, trait: 'Re-roll 1 failed repair or Jammed result.' },
+       { name: 'Gunner', skill: 'Arcade shooting', cost: 7, trait: 'Adds +1 to a single shooting attack when shooting from the move.' },
+       { name: 'Brawler', skill: 'Road rage specialist', cost: 7, trait: 'Gain +1 damage on a successful ram attack.' },
+       { name: 'Scout', skill: 'Route reader', cost: 4, trait: 'Gain +1 max gear on a straight-line sprint.' }
+      ];
+
+      const perkCatalog = [
+       { name: 'Nitro Boost', cost: 4, description: 'Burst forward; gain +1 Max Gear for one activation.' },
+       { name: 'Armor Plates', cost: 5, description: 'Add +1 armour to this vehicle until a crash.' },
+       { name: 'Twin Turrets', cost: 6, description: 'Add a second shooting weapon slot to the build.' },
+       { name: 'Fuel Injection', cost: 4, description: 'Ignore the first hazard token gained each round.' },
+       { name: 'Magnetic Hooks', cost: 3, description: 'Reroll one failed snag or drag check.' },
+       { name: 'Turbo Charger', cost: 5, description: 'Treat a selected straight template as +1 gear.' },
+       { name: 'Bull Bar', cost: 4, description: 'Rams deal +1 damage.' },
+       { name: 'Snub Nose', cost: 3, description: 'Bonus +1 handling for tight turns.' }
+      ];
+
+      const vehicleWeaponSlots = {
+       Buggy: ['standard', 'support'],
+       'Hot Rod': ['standard', 'support'],
+       'Muscle Car': ['standard', 'heavy'],
+       'Passenger Car': ['standard', 'support'],
+       Pickup: ['standard', 'support'],
+       'Sports Car': ['standard', 'special'],
+       Van: ['standard', 'support', 'heavy'],
+       Bike: ['standard', 'special'],
+       'Monster Truck': ['standard', 'heavy', 'special'],
+       'Heavy Truck': ['heavy', 'support'],
+       Bus: ['heavy', 'support'],
+       Gyrocopter: ['standard', 'special'],
+       Helicopter: ['standard', 'heavy', 'special'],
+       Tank: ['heavy', 'special'],
+       'War Rig': ['heavy', 'support', 'special']
+      };
+
+      const vehicleSlotRules = {
+       Buggy: 'Standard + support weapons only',
+       'Hot Rod': 'Standard + support weapons only',
+       'Muscle Car': 'Standard + heavy weapons only',
+       'Passenger Car': 'Standard + support weapons only',
+       Pickup: 'Standard + support weapons only',
+       'Sports Car': 'Standard + special weapons only',
+       Van: 'Standard + heavy + support weapons',
+       Bike: 'Standard + special weapons only',
+       'Monster Truck': 'Standard + heavy + special weapons',
+       'Heavy Truck': 'Heavy + support weapons only',
+       Bus: 'Heavy + support weapons only',
+       Gyrocopter: 'Standard + special weapons only',
+       Helicopter: 'Standard + heavy + special weapons',
+       Tank: 'Heavy + special weapons only',
+       'War Rig': 'Heavy + support + special weapons'
+      };
+
+      const referencePdfs = [
+       { title: 'Gaslands Rulebook', url: 'https://www.gaslands.com/' },
+       { title: 'Official Gaslands Downloads', url: 'https://www.gaslands.com/' },
+       { title: 'Community PDFs & house rules', url: 'https://www.gaslands.com/' }
+      ];
+
+      const gaslandsWeaponCatalog = [
+       { name: 'Machine Gun', kind: 'Standard', cost: 4, notes: 'Reliable all-rounder' },
+       { name: 'Twin-Linked Machine Guns', kind: 'Standard', cost: 6, notes: 'Double the spray' },
+       { name: 'Heavy Machine Gun', kind: 'Heavy', cost: 7, notes: 'Great for clearing the lane' },
+       { name: 'Autocannon', kind: 'Heavy', cost: 8, notes: 'High damage anti-vehicle fire' },
+       { name: 'Rocket Launcher', kind: 'Heavy', cost: 9, notes: 'Explosive payload' },
+       { name: 'Cannon', kind: 'Heavy', cost: 10, notes: 'Big punch, slower reload' },
+       { name: 'Flamethrower', kind: 'Special', cost: 7, notes: 'Set targets alight' },
+       { name: 'Harpoon', kind: 'Special', cost: 5, notes: 'Tether, drag, and snare' },
+       { name: 'Plasma Gun', kind: 'Special', cost: 9, notes: 'Devastating energy weapon' },
+       { name: 'Burst Laser', kind: 'Special', cost: 7, notes: 'Focused beam damage' },
+       { name: 'Mines', kind: 'Support', cost: 4, notes: 'Roadside traps' },
+       { name: 'Rail Gun', kind: 'Heavy', cost: 11, notes: 'Brutal high-velocity shot' }
+      ];
+
+      const gaslandsSpecialWeaponCatalog = [
+       { name: 'No special weapon', cost: 0 },
+       { name: 'EMP Burst', cost: 6, notes: 'Disrupts electronics' },
+       { name: 'Multi-Rocket Pod', cost: 8, notes: 'Area denial and damage' },
+       { name: 'Toxic Spray', cost: 6, notes: 'Corrosive hazard area' },
+       { name: 'Magnet Gun', cost: 7, notes: 'Pull a target into range' },
+       { name: 'Oil Slick', cost: 5, notes: 'Greasy hazard' },
+       { name: 'Hellfire', cost: 10, notes: 'High-intensity fire attack' },
+       { name: 'Snare', cost: 6, notes: 'Sticky drag control' }
+      ];
+
+      const dropWeaponCatalog = [
+       { name: 'No drop weapon', cost: 0 },
+       { name: 'Mines', cost: 4, notes: 'Roadside trap' },
+       { name: 'Oil Slick', cost: 5, notes: 'Greasy hazard' },
+       { name: 'EMP Mine', cost: 6, notes: 'Shuts down systems' },
+       { name: 'Spike Strip', cost: 3, notes: 'Slow a vehicle' }
+      ];
+
+      const handWeaponCatalog = [
+       { name: 'No hand weapon', cost: 0 },
+       { name: 'Revolver', cost: 2, notes: 'Close-range sidearm' },
+       { name: 'Shotgun', cost: 3, notes: 'Blasts a lane' },
+       { name: 'Chainsaw', cost: 4, notes: 'Savage melee tool' },
+       { name: 'Crowbar', cost: 2, notes: 'Cheap melee support' }
+      ];
+
+      const templateProduct = {
+       title: '3D-printed Gaslands template set',
+       price: '$20',
+       description: 'Printed template kit for straight, turn, slide, brake, reverse, and ram movement pieces.',
+       checkoutUrl: 'https://example.com/replace-with-your-stripe-or-paypal-checkout-link'
+      };
 
       const vehiclePresetMap = Object.fromEntries(
        fullVehicleInventory.map((vehicle) => [vehicle.name, vehicle])
@@ -733,27 +1103,234 @@
 
       function populateVehicleSelector() {
        const chassisSelect = document.getElementById('chassis');
-       chassisSelect.innerHTML = '<option value="">Custom build</option>' + fullVehicleInventory
+       const options = fullVehicleInventory
          .map((vehicle) => `<option value="${vehicle.name}">${vehicle.name}</option>`)
          .join('');
+       chassisSelect.innerHTML = '<option value="">Custom build</option>' + options;
+      }
+
+      function getVehicleWeaponSlotsForSelection(vehicleName) {
+       const slots = vehicleWeaponSlots[vehicleName] || ['standard', 'heavy', 'special', 'support'];
+       return slots;
+      }
+
+      function syncWeaponSelectOptions() {
+       const vehicleName = document.getElementById('chassis').value || 'Custom build';
+       const weaponSelect = document.getElementById('weapon');
+       const specialWeaponSelect = document.getElementById('specialWeapon');
+       const allowedSlots = getVehicleWeaponSlotsForSelection(vehicleName);
+
+       const filteredWeapons = gaslandsWeaponCatalog.filter((weapon) => {
+         const weaponSlot = weapon.kind.toLowerCase();
+         return allowedSlots.includes(weaponSlot) || (weaponSlot === 'energy' && allowedSlots.includes('special'));
+       });
+
+       const validOptions = filteredWeapons.length ? filteredWeapons : gaslandsWeaponCatalog;
+       weaponSelect.innerHTML = '<option value="">Custom weapon</option>' + validOptions
+         .map((weapon) => `<option value="${weapon.name}">${weapon.name} (${weapon.cost} cans)</option>`)
+         .join('');
+
+       if (!validOptions.some((weapon) => weapon.name === weaponSelect.value)) {
+         weaponSelect.value = validOptions[0].name;
+       }
+
+       specialWeaponSelect.innerHTML = gaslandsSpecialWeaponCatalog
+         .map((weapon) => `<option value="${weapon.name}">${weapon.name === 'No special weapon' ? 'No special weapon' : `${weapon.name} (${weapon.cost} cans)`}</option>`)
+         .join('');
+
+       if (!gaslandsSpecialWeaponCatalog.some((weapon) => weapon.name === specialWeaponSelect.value)) {
+         specialWeaponSelect.value = 'No special weapon';
+       }
+
+       const slotRule = vehicleSlotRules[vehicleName] || 'Custom vehicle: unrestricted weapon slots';
+       document.getElementById('summaryRule').textContent = `${document.getElementById('summaryRule').textContent.split(' | ')[0] || 'No special rule'} | Slot rule: ${slotRule}`;
+      }
+
+      function populateWeaponSelectors() {
+       const weaponSelect = document.getElementById('weapon');
+       const specialWeaponSelect = document.getElementById('specialWeapon');
+
+       weaponSelect.innerHTML = '<option value="">Custom weapon</option>' + gaslandsWeaponCatalog
+         .map((weapon) => `<option value="${weapon.name}">${weapon.name} (${weapon.cost} cans)</option>`)
+         .join('');
+
+       specialWeaponSelect.innerHTML = gaslandsSpecialWeaponCatalog
+         .map((weapon) => `<option value="${weapon.name}">${weapon.name === 'No special weapon' ? 'No special weapon' : `${weapon.name} (${weapon.cost} cans)`}</option>`)
+         .join('');
+
+       weaponSelect.value = 'Twin-Linked Machine Guns';
+       specialWeaponSelect.value = 'No special weapon';
+      }
+
+      function populateDriverAndPerkSelectors() {
+       const driverProfileSelect = document.getElementById('driverProfile');
+       const perkSelect = document.getElementById('perkSelect');
+       const sponsorSelect = document.getElementById('sponsorSelect');
+       const addonWeaponSelect = document.getElementById('addonWeapon');
+       const addonRareWeaponSelect = document.getElementById('addonRareWeapon');
+       const addonDropWeaponSelect = document.getElementById('addonDropWeapon');
+       const addonHandWeaponSelect = document.getElementById('addonHandWeapon');
+
+       driverProfileSelect.innerHTML = driverProfiles
+         .map((profile) => `<option value="${profile.name}">${profile.name} (${profile.cost} cans)</option>`)
+         .join('');
+
+       perkSelect.innerHTML = perkCatalog
+         .map((perk) => `<option value="${perk.name}">${perk.name} (${perk.cost} cans)</option>`)
+         .join('');
+
+       sponsorSelect.innerHTML = '<option value="">No sponsor selected</option>' + sponsorCatalog
+         .map((sponsor) => `<option value="${sponsor.sponsor}">${sponsor.sponsor}</option>`)
+         .join('');
+
+       addonWeaponSelect.innerHTML = '<option value="">No extra weapon</option>' + gaslandsWeaponCatalog
+         .map((weapon) => `<option value="${weapon.name}">${weapon.name} (${weapon.cost} cans)</option>`)
+         .join('');
+
+       addonRareWeaponSelect.innerHTML = '<option value="">No rare weapon</option>' + gaslandsSpecialWeaponCatalog
+         .map((weapon) => `<option value="${weapon.name}">${weapon.name === 'No special weapon' ? 'No rare weapon' : `${weapon.name} (${weapon.cost} cans)`}</option>`)
+         .join('');
+
+       addonDropWeaponSelect.innerHTML = '<option value="">No drop weapon</option>' + dropWeaponCatalog
+         .map((weapon) => `<option value="${weapon.name}">${weapon.name === 'No drop weapon' ? 'No drop weapon' : `${weapon.name} (${weapon.cost} cans)`}</option>`)
+         .join('');
+
+       addonHandWeaponSelect.innerHTML = '<option value="">No hand weapon</option>' + handWeaponCatalog
+         .map((weapon) => `<option value="${weapon.name}">${weapon.name === 'No hand weapon' ? 'No hand weapon' : `${weapon.name} (${weapon.cost} cans)`}</option>`)
+         .join('');
+
+       driverProfileSelect.value = 'Rookie';
+       perkSelect.value = '';
+       sponsorSelect.value = '';
+       addonWeaponSelect.value = '';
+       addonRareWeaponSelect.value = '';
+       addonDropWeaponSelect.value = '';
+       addonHandWeaponSelect.value = '';
+      }
+
+      function getSelectedDriverProfile() {
+       const driverProfileName = document.getElementById('driverProfile').value;
+       return driverProfiles.find((profile) => profile.name === driverProfileName) || driverProfiles[0];
+      }
+
+      function getSelectedPerks() {
+       const perkSelect = document.getElementById('perkSelect');
+       return Array.from(perkSelect.selectedOptions || []).map((option) => perkCatalog.find((perk) => perk.name === option.value)).filter(Boolean);
+      }
+
+      function getSelectedPerk() {
+       const selectedPerks = getSelectedPerks();
+       return selectedPerks[0] || null;
+      }
+
+      function getSelectedWeapon() {
+       const weaponName = document.getElementById('weapon').value;
+       return gaslandsWeaponCatalog.find((weapon) => weapon.name === weaponName) || gaslandsWeaponCatalog[0];
+      }
+
+      function getSelectedSpecialWeapon() {
+       const weaponName = document.getElementById('specialWeapon').value;
+       return gaslandsSpecialWeaponCatalog.find((weapon) => weapon.name === weaponName) || gaslandsSpecialWeaponCatalog[0];
+      }
+
+      function getSelectedSponsor() {
+       const sponsorName = document.getElementById('sponsorSelect').value;
+       return sponsorCatalog.find((sponsor) => sponsor.sponsor === sponsorName) || null;
+      }
+
+      function getSelectedAddons() {
+       const addonSelectors = ['addonWeapon', 'addonRareWeapon', 'addonDropWeapon', 'addonHandWeapon'];
+       const addons = [];
+
+       addonSelectors.forEach((selectorId) => {
+         const selector = document.getElementById(selectorId);
+         const selectedValue = selector ? String(selector.value || '').trim() : '';
+         if (!selectedValue) return;
+
+         const catalogMap = {
+           addonWeapon: gaslandsWeaponCatalog,
+           addonRareWeapon: gaslandsSpecialWeaponCatalog,
+           addonDropWeapon: dropWeaponCatalog,
+           addonHandWeapon: handWeaponCatalog
+         };
+
+         const catalog = catalogMap[selectorId] || [];
+         const item = catalog.find((entry) => entry.name === selectedValue);
+         if (item && Number(item.cost || 0) > 0) {
+           addons.push({
+             category: selectorId.replace('addon', '').replace(/([A-Z])/g, ' $1').trim(),
+             name: item.name,
+             cost: Number(item.cost || 0),
+             notes: item.notes || ''
+           });
+         }
+       });
+
+       return addons;
+      }
+
+      function getVehicleTotalCost(vehicle) {
+       const baseCost = Number(vehicle.cost || 0);
+       const driverCost = Number(vehicle.driverProfile?.cost || vehicle.driverCost || 0);
+       const perkCost = Array.isArray(vehicle.perks)
+         ? vehicle.perks.reduce((sum, perk) => sum + Number(perk.cost || 0), 0)
+         : 0;
+       const addonCost = Array.isArray(vehicle.addons)
+         ? vehicle.addons.reduce((sum, item) => sum + Number(item.cost || 0), 0)
+         : 0;
+       return baseCost + driverCost + perkCost + addonCost;
+      }
+
+      function getVehicleNotes(vehicle) {
+       const knownRules = new Set([
+         ...gaslandsWeaponCatalog.map((weapon) => weapon.name),
+         ...gaslandsSpecialWeaponCatalog.map((weapon) => weapon.name),
+         ...dropWeaponCatalog.map((weapon) => weapon.name),
+         ...handWeaponCatalog.map((weapon) => weapon.name)
+       ]);
+       const addonRules = Array.isArray(vehicle.addons)
+         ? vehicle.addons.map((item) => `${item.category}: ${item.name}`)
+         : [];
+       const notes = Array.isArray(vehicle.specialRules)
+         ? vehicle.specialRules.filter((rule) => !knownRules.has(rule) && !addonRules.includes(rule))
+         : [];
+       return notes.join(', ') || 'No extra notes';
       }
 
       function applyVehiclePreset(vehicleName) {
        const preset = vehiclePresetMap[vehicleName];
        if (!preset) return;
 
+       const firstRule = String(preset.specialRules[0] || '').trim();
+       const matchedWeapon = gaslandsWeaponCatalog.find((weapon) => {
+         const normalizedWeapon = weapon.name.toLowerCase().replace(/[-]/g, ' ');
+         const normalizedRule = firstRule.toLowerCase().replace(/[-]/g, ' ');
+         return normalizedWeapon === normalizedRule || normalizedWeapon.includes(normalizedRule) || normalizedRule.includes(normalizedWeapon);
+       });
+
+       const currentCost = Number(preset.cost || 0);
+
        document.getElementById('name').value = preset.name;
        document.getElementById('crew').value = preset.crew;
        document.getElementById('armor').value = preset.armour;
        document.getElementById('buildSlots').value = preset.buildSlots;
        document.getElementById('speed').value = preset.maxGear;
-       document.getElementById('weapon').value = preset.specialRules[0] || 'Custom';
+       document.getElementById('weight').value = preset.weight;
+       document.getElementById('handling').value = preset.handling;
+       document.getElementById('vehicleCost').value = currentCost;
+       document.getElementById('weapon').value = matchedWeapon ? matchedWeapon.name : 'Custom weapon';
+       document.getElementById('specialWeapon').value = 'No special weapon';
        document.getElementById('notes').value = preset.specialRules.slice(1).join(', ') || 'No extra notes';
+       document.getElementById('summaryCrew').textContent = preset.crew;
+       document.getElementById('summarySlots').textContent = preset.buildSlots;
+       document.getElementById('summaryCost').textContent = currentCost;
+       document.getElementById('summaryGear').textContent = preset.maxGear;
+       document.getElementById('summaryRule').textContent = preset.specialRules.length ? preset.specialRules.join(', ') : 'No special rule';
       }
 
       function loadVehicles() {
        try {
-         const saved = localStorage.getItem(STORAGE_KEY);
+         const saved = window.localStorage.getItem(STORAGE_KEY);
          if (!saved) return [];
          const parsed = JSON.parse(saved);
          return Array.isArray(parsed) ? parsed : [];
@@ -763,12 +1340,40 @@
       }
 
       function saveVehicles() {
-       localStorage.setItem(STORAGE_KEY, JSON.stringify(vehicles));
+       try {
+         window.localStorage.setItem(STORAGE_KEY, JSON.stringify(vehicles));
+       } catch (error) {
+         // Ignore storage errors so the app still works in locked-down or private browsing modes.
+       }
       }
 
       const vehicles = loadVehicles();
+      let kitbashGallery = loadKitbashGallery();
       const vehicleCards = document.getElementById('vehicleCards');
       const vehicleForm = document.getElementById('vehicleForm');
+
+      function initializeGarageApp() {
+       populateVehicleSelector();
+       populateWeaponSelectors();
+       populateDriverAndPerkSelectors();
+       syncWeaponSelectOptions();
+       renderVehicles();
+       renderKitbashGallery();
+       resetFormToCreate();
+       applySharedGarageIfPresent();
+      }
+
+      function applySharedGarageIfPresent() {
+       const hashGarage = window.location.hash.match(/garage=([^&]+)/);
+       if (!hashGarage || !hashGarage[1]) return;
+
+       const sharedVehicles = decodeGarageData(hashGarage[1]);
+       if (sharedVehicles.length) {
+         vehicles.splice(0, vehicles.length, ...sharedVehicles);
+         saveVehicles();
+         renderVehicles();
+       }
+      }
 
       const sponsorCatalog = [
        { sponsor: 'Chivo', requirement: 'Total cost of every vehicle in the team is 25+ cans', perk: 'Lowrider: +1 Handling while this vehicle has no Hazard tokens' },
@@ -787,6 +1392,75 @@
        { sponsor: 'The Warden', requirement: 'Every vehicle in the team has Hull 10+', perk: 'Criminal Record: 2 free perks on first taking this sponsor; Coffin Car: +1 extra Ignition Token' },
        { sponsor: 'Beverly', requirement: 'The team is a single Common vehicle', perk: 'Ghost Riders: summon spectral motorbike allies; Soul Anchor / Vengeful Spirits apply while they are in play' }
       ];
+
+      function loadKitbashGallery() {
+       try {
+         const saved = window.localStorage.getItem(KITBASH_STORAGE_KEY);
+         if (!saved) return [];
+         const parsed = JSON.parse(saved);
+         return Array.isArray(parsed) ? parsed : [];
+       } catch (error) {
+         return [];
+       }
+      }
+
+      function saveKitbashGallery() {
+       try {
+         window.localStorage.setItem(KITBASH_STORAGE_KEY, JSON.stringify(kitbashGallery));
+       } catch (error) {
+         // Ignore storage errors so the gallery still works in locked-down browsers.
+       }
+      }
+
+      function renderKitbashGallery() {
+       const gallery = document.getElementById('kitbashGallery');
+       if (!gallery) return;
+
+       if (!kitbashGallery.length) {
+         gallery.innerHTML = '<div class="gallery-empty">No matchbox builds yet. Upload a photo to start the alley.</div>';
+         return;
+       }
+
+       gallery.innerHTML = kitbashGallery.map((item) => `
+         <div class="gallery-item">
+           <img src="${item.dataUrl}" alt="${item.title || 'Gaslands matchbox build'}" />
+           <div class="gallery-meta">
+             <span class="gallery-title">${item.title || 'Matchbox build'}</span>
+             <button class="gallery-remove" type="button" data-kitbash-id="${item.id}">Remove</button>
+           </div>
+         </div>
+       `).join('');
+      }
+
+      function readImageFile(file) {
+       return new Promise((resolve, reject) => {
+         const reader = new FileReader();
+         reader.onload = () => resolve({
+           id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+           title: file.name.replace(/\.[^.]+$/, '').trim() || 'Matchbox build',
+           dataUrl: String(reader.result || '')
+         });
+         reader.onerror = () => reject(new Error('Could not read image file'));
+         reader.readAsDataURL(file);
+       });
+      }
+
+      async function handleKitbashUpload(event) {
+       event.preventDefault();
+       const input = document.getElementById('kitbashUpload');
+       const files = Array.from(input.files || []).filter((file) => file.type.startsWith('image/'));
+
+       if (!files.length) {
+         window.alert('Choose one or more image files to add to the alley.');
+         return;
+       }
+
+       const imageEntries = await Promise.all(files.map(readImageFile));
+       kitbashGallery = [...imageEntries, ...kitbashGallery].slice(0, 24);
+       saveKitbashGallery();
+       renderKitbashGallery();
+       input.value = '';
+      }
 
       function renderStats() {
        const totalCrew = vehicles.reduce((sum, v) => sum + Number(v.crew), 0);
@@ -810,15 +1484,25 @@
        const summaryCost = document.getElementById('summaryCost');
        const summaryGear = document.getElementById('summaryGear');
        const summaryRule = document.getElementById('summaryRule');
+       const selectedPerks = getSelectedPerks();
+       const selectedSponsor = getSelectedSponsor();
+       const selectedAddons = getSelectedAddons();
+       const addonCost = selectedAddons.reduce((sum, item) => sum + Number(item.cost || 0), 0);
 
        if (selectedVehicleName) {
          const preset = vehiclePresetMap[selectedVehicleName];
          if (preset) {
+           const driverProfile = getSelectedDriverProfile();
+           const selectedWeapon = getSelectedWeapon();
+           const selectedSpecialWeapon = getSelectedSpecialWeapon();
+           const perkTotal = selectedPerks.reduce((sum, perk) => sum + Number(perk.cost || 0), 0);
+           const baseCost = preset.cost + (driverProfile?.cost || 0) + perkTotal + (selectedWeapon?.cost || 0) + (selectedSpecialWeapon?.cost || 0) + addonCost;
            summaryCrew.textContent = preset.crew;
            summarySlots.textContent = preset.buildSlots;
-           summaryCost.textContent = preset.cost;
+           summaryCost.textContent = baseCost;
            summaryGear.textContent = preset.maxGear;
-           summaryRule.textContent = preset.specialRules.length ? preset.specialRules.join(', ') : 'No special rule';
+           summaryRule.textContent = `${preset.specialRules.join(', ') || 'No special rule'} | Weapon: ${selectedWeapon?.name || 'Custom'} | Special: ${selectedSpecialWeapon?.name === 'No special weapon' ? 'None' : selectedSpecialWeapon?.name} | Sponsor: ${selectedSponsor ? selectedSponsor.sponsor : 'No sponsor'} | Driver: ${driverProfile?.name || 'Rookie'} | Perks: ${selectedPerks.length ? selectedPerks.map((perk) => perk.name).join(', ') : 'None'} | Add-ons: ${selectedAddons.length ? selectedAddons.map((item) => `${item.name} (${item.cost} cans)`).join(', ') : 'None'}`;
+           document.getElementById('vehicleCost').value = baseCost;
            return;
          }
        }
@@ -826,37 +1510,69 @@
        const crewValue = Number(document.getElementById('crew').value || 0);
        const slotValue = Number(document.getElementById('buildSlots').value || 0);
        const gearValue = Number(document.getElementById('speed').value || 0);
+       const weightValue = Number(document.getElementById('weight').value || 0);
+       const handlingValue = Number(document.getElementById('handling').value || 0);
        const weaponValue = String(document.getElementById('weapon').value || '').trim();
+       const specialWeaponValue = String(document.getElementById('specialWeapon').value || '').trim();
        const notesValue = String(document.getElementById('notes').value || '').trim();
+       const driverProfile = getSelectedDriverProfile();
+       const selectedWeapon = getSelectedWeapon();
+       const selectedSpecialWeapon = getSelectedSpecialWeapon();
+       const perkTotal = selectedPerks.reduce((sum, perk) => sum + Number(perk.cost || 0), 0);
+       const totalCost = Math.max(0, Math.round((crewValue * 2) + (slotValue * 2) + (weightValue * 2) + (handlingValue * 2) + 10 + (driverProfile?.cost || 0) + perkTotal + (selectedWeapon?.cost || 0) + (selectedSpecialWeapon?.cost || 0) + addonCost));
 
        summaryCrew.textContent = crewValue;
        summarySlots.textContent = slotValue;
-       summaryCost.textContent = Math.max(0, crewValue * 3 + slotValue + 3);
+       summaryCost.textContent = totalCost;
        summaryGear.textContent = gearValue;
-       summaryRule.textContent = (weaponValue || notesValue || 'No special rule');
+       document.getElementById('vehicleCost').value = totalCost;
+       summaryRule.textContent = `${weaponValue || notesValue || 'No special rule'} | Weapon: ${selectedWeapon?.name || 'Custom'} | Special: ${specialWeaponValue && specialWeaponValue !== 'No special weapon' ? specialWeaponValue : 'None'} | Sponsor: ${selectedSponsor ? selectedSponsor.sponsor : 'No sponsor'} | Driver: ${driverProfile?.name || 'Rookie'} | Perks: ${selectedPerks.length ? selectedPerks.map((perk) => perk.name).join(', ') : 'None'} | Add-ons: ${selectedAddons.length ? selectedAddons.map((item) => `${item.name} (${item.cost} cans)`).join(', ') : 'None'}`;
       }
 
       function getFormVehicleFromInputs() {
        const formData = new FormData(vehicleForm);
        const weapon = String(formData.get('weapon') || '').trim() || 'Custom';
+       const specialWeapon = String(formData.get('specialWeapon') || '').trim();
        const notes = String(formData.get('notes') || '').trim();
-       const specialRules = [weapon];
+       const specialRules = [];
+       const driverProfile = getSelectedDriverProfile();
+       const selectedPerks = getSelectedPerks();
+       const sponsor = getSelectedSponsor();
+       const addons = getSelectedAddons();
 
+       if (weapon && weapon !== 'Custom') {
+         specialRules.push(weapon);
+       }
+       if (specialWeapon && specialWeapon !== 'No special weapon') {
+         specialRules.push(specialWeapon);
+       }
+       if (addons.length) {
+         addons.forEach((item) => specialRules.push(`${item.category}: ${item.name}`));
+       }
        if (notes && notes !== 'No extra notes') {
          specialRules.push(notes);
+       }
+       if (!specialRules.length) {
+         specialRules.push('Custom');
        }
 
        return {
          name: String(formData.get('name') || '').trim() || 'Unnamed rig',
-         type: String(formData.get('chassis') || 'Buggy'),
+         type: String(formData.get('chassis') || 'Custom build'),
          maxGear: Number(formData.get('speed')) || 1,
-         handling: Number(formData.get('speed')) || 1,
+         handling: Number(formData.get('handling')) || Number(formData.get('speed')) || 1,
          crew: Number(formData.get('crew')) || 1,
-         weight: Number(formData.get('crew')) || 1,
+         weight: Number(formData.get('weight')) || Number(formData.get('crew')) || 1,
          armour: Number(formData.get('armor')) || 1,
          hull: Number(formData.get('buildSlots')) || 2,
          buildSlots: Number(formData.get('buildSlots')) || 2,
-         cost: 18,
+         cost: (Number(formData.get('buildSlots')) || 2) * 3 + (Number(formData.get('crew')) || 1) * 2 + (Number(formData.get('weight')) || 1) * 1 + (getSelectedWeapon()?.cost || 0) + (getSelectedSpecialWeapon()?.cost || 0) + addons.reduce((sum, item) => sum + Number(item.cost || 0), 0),
+         driverName: String(formData.get('driverName') || 'Rookie').trim() || 'Rookie',
+         driverProfile,
+         driverCost: Number(driverProfile?.cost || 0),
+         sponsor: sponsor ? { ...sponsor } : null,
+         perks: selectedPerks.map((perk) => ({ ...perk })),
+         addons,
          specialRules
        };
       }
@@ -870,9 +1586,24 @@
        document.getElementById('armor').value = 4;
        document.getElementById('buildSlots').value = 2;
        document.getElementById('speed').value = 7;
-       document.getElementById('weapon').value = 'Twin-linked machine guns';
+       document.getElementById('weight').value = 3;
+       document.getElementById('handling').value = 4;
+       document.getElementById('vehicleCost').value = 18;
+       document.getElementById('sponsorSelect').value = '';
+       document.getElementById('weapon').value = 'Twin-Linked Machine Guns';
+       document.getElementById('specialWeapon').value = 'No special weapon';
+       document.getElementById('addonWeapon').value = '';
+       document.getElementById('addonRareWeapon').value = '';
+       document.getElementById('addonDropWeapon').value = '';
+       document.getElementById('addonHandWeapon').value = '';
        document.getElementById('notes').value = 'Roll 5+ to ignore a ram hit. Loves chaos.';
+       document.getElementById('driverName').value = 'Rusty Rook';
+       document.getElementById('driverProfile').value = 'Rookie';
+       Array.from(document.getElementById('perkSelect').options).forEach((option) => {
+         option.selected = false;
+       });
        document.querySelector('#vehicleForm button[type="submit"]').textContent = 'Add to roster';
+       updateSelectedSummary();
       }
 
       function encodeGarageData() {
@@ -926,9 +1657,17 @@
          : '';
 
        const cardMarkup = vehicles
-         .map((vehicle, index) => `
+         .map((vehicle, index) => {
+           const totalCost = getVehicleTotalCost(vehicle);
+           const selectedDriver = vehicle.driverProfile?.name || vehicle.driverName || 'Rookie';
+           const perkList = Array.isArray(vehicle.perks) && vehicle.perks.length
+             ? vehicle.perks.map((perk) => `${perk.name} (${perk.cost} cans)`).join(', ')
+             : 'No perks purchased';
+           const sponsorName = vehicle.sponsor?.sponsor || 'No sponsor';
+
+           return `
            <article class="vehicle-card">
-             <div class="badge">${vehicle.cost} cans</div>
+             <div class="badge">${totalCost} cans</div>
              <h3>${vehicle.name}</h3>
              <div class="meta">${vehicle.type}</div>
              <div>Base slots: ${vehicle.buildSlots} • Hull ${vehicle.hull}</div>
@@ -938,13 +1677,23 @@
                <span class="chip">Weight ${vehicle.weight}</span>
                <span class="chip">Gear ${vehicle.maxGear}</span>
              </div>
+             <div class="chip-row">
+               <span class="chip">Driver: ${selectedDriver}</span>
+               <span class="chip">Sponsor: ${sponsorName}</span>
+               <span class="chip">Handling ${vehicle.handling}</span>
+             </div>
+             <div class="chip-row">
+               <span class="chip">Perks: ${perkList}</span>
+               <span class="chip">Add-ons: ${Array.isArray(vehicle.addons) && vehicle.addons.length ? vehicle.addons.map((item) => `${item.name} (${item.cost} cans)`).join(', ') : 'None'}</span>
+             </div>
              <p>${vehicle.specialRules.length ? vehicle.specialRules.join(', ') : 'No special rules'}</p>
              <div class="action-row">
                <button class="edit-btn" type="button" data-index="${index}">Edit</button>
                <button class="delete-btn" type="button" data-index="${index}">Delete</button>
              </div>
            </article>
-         `)
+         `;
+         })
          .join('');
 
        const sponsorMarkup = `
@@ -952,6 +1701,15 @@
            <h4>Sponsor requirements</h4>
            <div class="sponsor-list">
              ${sponsorCatalog.map((sponsor) => `<div><strong>${sponsor.sponsor}</strong> — ${sponsor.requirement}</div>`).join('')}
+           </div>
+         </div>
+       `;
+
+       const referenceMarkup = `
+         <div class="sponsor-strip">
+           <h4>Reference PDFs</h4>
+           <div class="sponsor-list">
+             ${referencePdfs.map((entry) => `<div><strong><a href="${entry.url}" target="_blank" rel="noreferrer">${entry.title}</a></strong> — quick reference</div>`).join('')}
            </div>
          </div>
        `;
@@ -980,8 +1738,38 @@
          </div>
        `;
 
-       vehicleCards.innerHTML = emptyState + cardMarkup + sponsorMarkup + templateMarkup;
+       const templateShopMarkup = `
+         <div class="template-strip">
+           <h4>Template shop</h4>
+           <div class="template-shop">
+             <div>
+               <strong>${templateProduct.title}</strong>
+               <p>${templateProduct.description} <strong>${templateProduct.price}</strong> for a print-ready set.</p>
+             </div>
+             <a class="shop-btn" href="${templateProduct.checkoutUrl}" target="_blank" rel="noreferrer">Order printed set — ${templateProduct.price}</a>
+           </div>
+         </div>
+       `;
+
+       const kitbashMarkup = `
+         <section class="kitbash-panel" aria-label="kitbash alley gallery">
+           <div class="kitbash-inner">
+             <div class="kitbash-header">
+               <h3>Kitbash Alley</h3>
+               <span class="tag">Show off your matchbox builds</span>
+             </div>
+             <form class="kitbash-form" id="kitbashForm">
+               <input id="kitbashUpload" type="file" accept="image/*" multiple />
+               <button type="submit">Upload to alley</button>
+             </form>
+             <div class="gallery-grid" id="kitbashGallery" aria-live="polite"></div>
+           </div>
+         </section>
+       `;
+
+       vehicleCards.innerHTML = emptyState + cardMarkup + sponsorMarkup + referenceMarkup + templateMarkup + templateShopMarkup + kitbashMarkup;
        renderStats();
+       renderKitbashGallery();
       }
 
       document.getElementById('printRaceSheet').addEventListener('click', () => {
@@ -992,7 +1780,27 @@
        shareGarage();
       });
 
-      ['chassis', 'crew', 'armor', 'buildSlots', 'speed', 'weapon', 'notes'].forEach((fieldId) => {
+      document.getElementById('toggleAddons').addEventListener('click', () => {
+       const panel = document.getElementById('addonPanel');
+       const isHidden = panel.hasAttribute('hidden');
+       if (isHidden) {
+         panel.removeAttribute('hidden');
+       } else {
+         panel.setAttribute('hidden', 'hidden');
+       }
+      });
+
+      document.getElementById('kitbashForm').addEventListener('submit', handleKitbashUpload);
+      document.getElementById('kitbashGallery').addEventListener('click', (event) => {
+       const removeButton = event.target.closest('.gallery-remove');
+       if (!removeButton) return;
+       const itemId = removeButton.dataset.kitbashId;
+       kitbashGallery = kitbashGallery.filter((item) => item.id !== itemId);
+       saveKitbashGallery();
+       renderKitbashGallery();
+      });
+
+      ['chassis', 'crew', 'armor', 'buildSlots', 'speed', 'weight', 'handling', 'weapon', 'specialWeapon', 'addonWeapon', 'addonRareWeapon', 'addonDropWeapon', 'addonHandWeapon', 'notes', 'driverProfile', 'perkSelect', 'sponsorSelect', 'driverName'].forEach((fieldId) => {
        const field = document.getElementById(fieldId);
        if (field) {
          field.addEventListener('input', updateSelectedSummary);
@@ -1002,6 +1810,7 @@
 
       document.getElementById('chassis').addEventListener('change', (event) => {
        const selectedVehicle = event.target.value;
+       syncWeaponSelectOptions();
        if (selectedVehicle) {
          applyVehiclePreset(selectedVehicle);
        }
@@ -1024,9 +1833,26 @@
          document.getElementById('armor').value = vehicle.armour;
          document.getElementById('buildSlots').value = vehicle.buildSlots || 2;
          document.getElementById('speed').value = vehicle.maxGear;
-         document.getElementById('weapon').value = vehicle.specialRules[0] || '';
-         document.getElementById('notes').value = vehicle.specialRules.slice(1).join(', ') || 'No extra notes';
+         document.getElementById('weight').value = vehicle.weight || 3;
+         document.getElementById('handling').value = vehicle.handling || 4;
+         document.getElementById('vehicleCost').value = getVehicleTotalCost(vehicle);
+         const matchedWeapon = gaslandsWeaponCatalog.find((weapon) => weapon.name.toLowerCase() === String(vehicle.specialRules[0] || '').toLowerCase().replace(/[-]/g, ' ')) || gaslandsWeaponCatalog.find((weapon) => weapon.name.toLowerCase().includes(String(vehicle.specialRules[0] || '').toLowerCase().replace(/[-]/g, ' ')));
+         syncWeaponSelectOptions();
+         document.getElementById('weapon').value = matchedWeapon ? matchedWeapon.name : 'Custom weapon';
+         document.getElementById('specialWeapon').value = 'No special weapon';
+         document.getElementById('notes').value = getVehicleNotes(vehicle);
+         document.getElementById('driverName').value = vehicle.driverName || 'Rusty Rook';
+         document.getElementById('driverProfile').value = vehicle.driverProfile?.name || 'Rookie';
+         Array.from(document.getElementById('perkSelect').options).forEach((option) => {
+           option.selected = Array.isArray(vehicle.perks) && vehicle.perks.some((perk) => perk.name === option.value);
+         });
+         document.getElementById('sponsorSelect').value = vehicle.sponsor?.sponsor || '';
+         document.getElementById('addonWeapon').value = Array.isArray(vehicle.addons) ? (vehicle.addons.find((item) => item.category === 'Weapon')?.name || '') : '';
+         document.getElementById('addonRareWeapon').value = Array.isArray(vehicle.addons) ? (vehicle.addons.find((item) => item.category === 'Rare Weapon')?.name || '') : '';
+         document.getElementById('addonDropWeapon').value = Array.isArray(vehicle.addons) ? (vehicle.addons.find((item) => item.category === 'Drop Weapon')?.name || '') : '';
+         document.getElementById('addonHandWeapon').value = Array.isArray(vehicle.addons) ? (vehicle.addons.find((item) => item.category === 'Hand Weapon')?.name || '') : '';
          document.querySelector('#vehicleForm button[type="submit"]').textContent = 'Save vehicle';
+         updateSelectedSummary();
          return;
        }
 
@@ -1046,31 +1872,26 @@
 
       vehicleForm.addEventListener('submit', (event) => {
        event.preventDefault();
-
+ 
        const formVehicle = getFormVehicleFromInputs();
-
+ 
        if (editingVehicleIndex !== null) {
          vehicles[editingVehicleIndex] = formVehicle;
        } else {
          vehicles.unshift(formVehicle);
        }
-
+ 
        saveVehicles();
-       const hashGarage = window.location.hash.match(/garage=([^&]+)/);
-       if (hashGarage && hashGarage[1]) {
-        const sharedVehicles = decodeGarageData(hashGarage[1]);
-        if (sharedVehicles.length) {
-          vehicles.splice(0, vehicles.length, ...sharedVehicles);
-        }
-       }
-
        populateVehicleSelector();
        renderVehicles();
        resetFormToCreate();
       });
 
-      renderVehicles();
-      resetFormToCreate();
+      if (document.readyState === 'loading') {
+       document.addEventListener('DOMContentLoaded', initializeGarageApp);
+      } else {
+       initializeGarageApp();
+      }
     </script>
   </body>
 </html>
