@@ -1353,14 +1353,15 @@
       const vehicleForm = document.getElementById('vehicleForm');
 
       function initializeGarageApp() {
-       populateVehicleSelector();
-       populateWeaponSelectors();
-       populateDriverAndPerkSelectors();
-       syncWeaponSelectOptions();
-       renderVehicles();
-       renderKitbashGallery();
-       resetFormToCreate();
-       applySharedGarageIfPresent();
+       // Run each init step defensively so one failure doesn't break the rest.
+       try { populateVehicleSelector(); } catch (e) { console.error('populateVehicleSelector failed', e); }
+       try { populateWeaponSelectors(); } catch (e) { console.error('populateWeaponSelectors failed', e); }
+       try { populateDriverAndPerkSelectors(); } catch (e) { console.error('populateDriverAndPerkSelectors failed', e); }
+       try { syncWeaponSelectOptions(); } catch (e) { console.error('syncWeaponSelectOptions failed', e); }
+       try { renderVehicles(); } catch (e) { console.error('renderVehicles failed', e); }
+       try { renderKitbashGallery(); } catch (e) { console.error('renderKitbashGallery failed', e); }
+       try { resetFormToCreate(); } catch (e) { console.error('resetFormToCreate failed', e); }
+       try { applySharedGarageIfPresent(); } catch (e) { console.error('applySharedGarageIfPresent failed', e); }
       }
 
       function applySharedGarageIfPresent() {
